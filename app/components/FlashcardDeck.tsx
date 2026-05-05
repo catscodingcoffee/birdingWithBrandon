@@ -132,6 +132,7 @@ export default function FlashcardDeck() {
   function recordResult(speciesCode: string, result: "got_it" | "not_yet") {
     setResults((r) => ({ ...r, [speciesCode]: result }));
     next();
+    console.log(speciesCode, result); 
   }
 
   function next() {
@@ -350,7 +351,7 @@ export default function FlashcardDeck() {
                   transform: "rotateY(180deg)",
                 }}
               >
-                <div className="space-y-3 overflow-hidden">
+                <div className="space-y-3">
                   <div>
                     <h3 className="text-2xl font-bold">{bird.comName}</h3>
                     <p className="text-sm italic text-gray-500 dark:text-gray-400 mt-0.5">
@@ -358,13 +359,24 @@ export default function FlashcardDeck() {
                     </p>
                   </div>
                   {bird.description && (
-                    <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed overflow-y-auto max-h-52">
+                    <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed overflow-y-auto max-h-32">
                       {bird.description}
                     </p>
                   )}
                 </div>
-                <div>
-
+                <div className="flex gap-3">
+                  <button className = "px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-xl"
+                  onClick={(e)=>{
+                    e.stopPropagation(); 
+                    recordResult(bird.speciesCode,"got_it")}}>
+                    Not yet!
+                  </button>
+                  <button className = "px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-xl"
+                  onClick={(e)=>{
+                  e.stopPropagation(); 
+                  recordResult(bird.speciesCode,"not_yet")}}>
+                    Got it!
+                  </button>
                 </div>
                 <div className="flex gap-4 pt-4 border-t border-gray-100 dark:border-gray-800">
                   {bird.wikiUrl && (
