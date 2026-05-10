@@ -1,13 +1,16 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
+import { useEffect, useState } from "react";
+import { createClient } from "@/lib/supabase";
+
 
 type NavChild = { label: string; href: string; external?: boolean };
 type NavItem =
   | { label: string; href: string; highlight?: boolean }
   | { label: string; children: NavChild[] };
+
 
 const navItems: NavItem[] = [
   { label: "Home", href: "/" },
@@ -74,6 +77,19 @@ function XIcon() {
 export default function Nav() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [user, setUser] = useState<{ email?: string } | null>(null);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getSession().then(({ data: { session } }) => setUser(session?.user ?? null));
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   function toggleDropdown(label: string) {
     setOpenDropdown((prev) => (prev === label ? null : label));
@@ -137,11 +153,10 @@ export default function Nav() {
                 <Link
                   key={item.label}
                   href={item.href}
-                  className={`${linkBase} ${
-                    item.highlight
+                  className={`${linkBase} ${item.highlight
                       ? "text-sky-600 dark:text-sky-400 font-medium"
                       : ""
-                  }`}
+                    }`}
                 >
                   {item.label}
                 </Link>
@@ -152,6 +167,48 @@ export default function Nav() {
           {/* Right controls */}
           <div className="flex items-center gap-1">
             <ThemeToggle />
+            {user ? (
+              <div className="relative">
+                <button
+                  onClick={() => setUserMenuOpen(o => !o)}
+                  className="px-3 py-1.5 text-sm rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-600 dark:text-gray-400 flex items-center gap-1"
+                >
+                  {user.email}
+                  <ChevronDown />
+                </button>
+                {userMenuOpen && (
+                  <div className="absolute right-0 top-full pt-1 z-50">
+                    <div className="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 py-1.5 min-w-36">
+                      <Link
+                        href="/progress"
+                        onClick={() => setUserMenuOpen(false)}
+                        className="block px-4 py-1.5 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                      >
+                        My Progress
+                      </Link>
+                      <button
+                        onClick={async () => {
+                          const supabase = createClient();
+                          await supabase.auth.signOut();
+                          setUser(null);
+                          setUserMenuOpen(false);
+                        }}
+                        className="w-full text-left px-4 py-1.5 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                      >
+                        Log out
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link href="/login" className="px-3 py-1.5 text-sm rounded-lg text-sky-600 
+  dark:text-sky-400 font-medium hover:bg-gray-100 dark:hover:bg-gray-800        
+  transition-colors">
+                Log in
+              </Link>
+            )}
+
             <button
               onClick={() => setMobileOpen((o) => !o)}
               className="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-600 dark:text-gray-400"
@@ -217,9 +274,8 @@ export default function Nav() {
                   key={item.label}
                   href={item.href}
                   onClick={() => setMobileOpen(false)}
-                  className={`block px-3 py-2 text-sm rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors ${
-                    item.highlight ? "text-sky-600 dark:text-sky-400 font-medium" : ""
-                  }`}
+                  className={`block px-3 py-2 text-sm rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors ${item.highlight ? "text-sky-600 dark:text-sky-400 font-medium" : ""
+                    }`}
                 >
                   {item.label}
                 </Link>

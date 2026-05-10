@@ -28,8 +28,9 @@ export default function LoginPage() {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    const { error } = await supabase.auth.signUp({ email, password });
+    const { data, error } = await supabase.auth.signUp({ email, password });
     if (error) setError(error.message);
+    else if (data.session) router.push("/");
     else setError("Check your email to confirm your account.");
     setLoading(false);
   }

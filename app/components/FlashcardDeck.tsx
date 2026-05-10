@@ -21,7 +21,7 @@ interface Bird {
   wikiUrl: string | null;
 }
 
-type Step = "location" | "hotspots" | "studying";
+type Step = "location" | "hotspots" | "studying"|"summary";
 
 function BirdPlaceholder() {
   return (
@@ -130,10 +130,32 @@ export default function FlashcardDeck() {
   }
 
   function recordResult(speciesCode: string, result: "got_it" | "not_yet") {
-    setResults((r) => ({ ...r, [speciesCode]: result }));
-    next();
-    console.log(speciesCode, result); 
+    const updated = {... results,[speciesCode]: result};
+    setResults(updated);
+    if(currentIndex === birds.length - 1){
+      setStep("summary");
+      fetch("/api/results", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        hotspotId: selectedHotspot?.locId,
+        hotspotName: selectedHotspot?.locName,
+        results: updated,
+        speciesNames: Object.fromEntries(birds.map(b=>[b.speciesCode, b.comName]))
+        }),
+      });
+    }else{
+      next();
+    }
   }
+
+  function restartWithMissed(missedBirds: Bird[]) {
+    setBirds(missedBirds);
+    setCurrentIndex(0);
+    setIsFlipped(false);
+    setStep("studying");
+    setResults({});
+  } 
 
   function next() {
     setIsFlipped(false);
@@ -368,13 +390,13 @@ export default function FlashcardDeck() {
                   <button className = "px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-xl"
                   onClick={(e)=>{
                     e.stopPropagation(); 
-                    recordResult(bird.speciesCode,"got_it")}}>
+                    recordResult(bird.speciesCode,"not_yet")}}>
                     Not yet!
                   </button>
                   <button className = "px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-xl"
                   onClick={(e)=>{
                   e.stopPropagation(); 
-                  recordResult(bird.speciesCode,"not_yet")}}>
+                  recordResult(bird.speciesCode,"got_it")}}>
                     Got it!
                   </button>
                 </div>
@@ -448,6 +470,34 @@ export default function FlashcardDeck() {
           <p className="text-center text-xs text-gray-400">
             Tap the card to flip &middot; Keyboard: Enter to flip, &larr; &rarr; to navigate
           </p>
+        </div>
+      )}
+      {/*Step: summary */}
+          {step === "summary" && (
+            <div className="p-4 bg-yellow-50 dark:bg-yellow-900/30 rounded-xl border border-yellow-200 dark:border-yellow-700">
+              <h3 className="text-lg font-semibold mb-2">Study Summary</h3>
+              <p className="text-sm text-gray-700 dark:text-gray-300 mb-4">
+                You got {Object.values(results).filter(r => r === "got_it").length} out of {birds.length} birds! 
+              </p>
+              <p className="text-sm text-gray-700 dark:text-gray-300 mb-4">
+                Birds missed: {birds.filter(b => results[b.speciesCode] === "not_yet").map(b => b.comName).join(", ") || "None!"}
+              </p>
+              {Object.values(results).filter(r => r === "not_yet").length > 0 && (
+                <>
+                <button
+                  onClick={() => restartWithMissed(birds.filter(b => results[b.speciesCode] === "not_yet"))}
+                  className="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white rounded-xl text-sm font-medium transition-colors"
+                >
+                  Study Missed Birds
+                </button>
+                <button
+                  onClick={reset}
+                  className="ml-2 px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-xl text-sm font-medium transition-colors"
+                >
+                  Start Over
+                </button> 
+                </>
+              )}
         </div>
       )}
     </div>

@@ -1,4 +1,5 @@
 import { NextRequest } from "next/server";
+import { fetchWikiInfo } from "@/lib/wiki";
 
 interface EBirdObs {
   speciesCode: string;
@@ -6,40 +7,6 @@ interface EBirdObs {
   sciName: string;
 }
 
-interface WikiSummary {
-  extract?: string;
-  thumbnail?: { source: string };
-  content_urls?: { desktop: { page: string } };
-}
-
-async function fetchWikiInfo(comName: string) {
-  // Strip parenthetical qualifiers like "(Audubon's)" that break title lookup
-  const cleanName = comName.replace(/\s*\(.*?\)\s*/g, "").trim();
-  const namesToTry = Array.from(new Set([cleanName, comName]));
-
-  for (const name of namesToTry) {
-    try {
-      const title = encodeURIComponent(name.replace(/ /g, "_"));
-      const res = await fetch(
-        `https://en.wikipedia.org/api/rest_v1/page/summary/${title}`,
-        {
-          headers: { "User-Agent": "BirdingWithBrandon/1.0 (birdingwithbrandon.com)" },
-          next: { revalidate: 86400 },
-        }
-      );
-      if (!res.ok) continue;
-      const data: WikiSummary = await res.json();
-      return {
-        imageUrl: data.thumbnail?.source ?? null,
-        description: data.extract ?? null,
-        wikiUrl: data.content_urls?.desktop.page ?? null,
-      };
-    } catch {
-      continue;
-    }
-  }
-  return { imageUrl: null, description: null, wikiUrl: null };
-}
 
 export async function GET(request: NextRequest) {
   const locId = new URL(request.url).searchParams.get("locId");
@@ -70,10 +37,10 @@ export async function GET(request: NextRequest) {
 
   const birds = await Promise.all(
     unique.map(async (bird) => {
-      const wiki = await fetchWikiInfo(bird.comName);
+      const wiki = await fetchWikiInfo(bird.comName, bird.sciName);
       return { ...bird, ...wiki };
     })
   );
 
-  return Response.json(birds);
+  return Response.json(birds.filter(b => b.imageUrl !== null));
 }

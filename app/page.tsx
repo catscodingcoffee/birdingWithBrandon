@@ -1,4 +1,8 @@
+import { fetchWikiInfo } from "@/lib/wiki";
 import Link from "next/link";
+import Image from "next/image";
+
+export const revalidate = 86400; // revalidate once per day
 
 const features = [
   {
@@ -75,7 +79,22 @@ const features = [
   },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const taxRes = await fetch(
+          "https://api.ebird.org/v2/ref/taxonomy/ebird?fmt=json&cat=species",
+          {
+            headers: { "X-eBirdApiToken": process.env.EBIRD_API_KEY! },
+            next: { revalidate: 86400 },
+          }
+        );
+  const taxonomy = await taxRes.json();
+
+  // deterministic daily index
+  const today = new Date().toISOString().slice(0, 10); // "2026-05-09"
+  const seed = parseInt(today.replace(/-/g, ""), 10);
+  const species = taxonomy[seed % taxonomy.length];
+
+  const wiki = await fetchWikiInfo(species.comName, species.sciName);
   return (
     <div className="space-y-16">
       {/* Hero */}
@@ -152,32 +171,34 @@ export default function Home() {
       {/* Bird of the week */}
       <section>
         <h2 className="text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-5">
-          Bird of the Week
-        </h2>
-        <div className="flex gap-6 p-6 rounded-2xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/50">
-          <div className="flex-1 min-w-0">
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-1">
-              Spotted Towhee
-            </h3>
-            <p className="text-sm italic text-gray-500 dark:text-gray-400 mb-3">
-              Pipilo maculatus
-            </p>
-            <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-              One of Oregon&apos;s most recognizable backyard birds. Listen for its
-              distinctive <em>drink-your-teeeea</em> song in brushy thickets and
-              forest edges. The male&apos;s bold black, white, and rufous plumage
-              makes it easy to identify.
-            </p>
-            <a
-              href="https://www.audubon.org/field-guide/bird/spotted-towhee"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block mt-4 text-sm text-sky-600 dark:text-sky-400 hover:underline"
-            >
-              Audubon field guide &rarr;
-            </a>
+            Bird of the Day
+          </h2>
+          <div className="flex gap-6 p-6 rounded-2xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/50">
+            {wiki.imageUrl && (
+              <div className="relative w-32 h-32 shrink-0 rounded-xl overflow-hidden bg-black">
+                <Image src={wiki.imageUrl} alt={species.comName} fill className="object-cover" sizes="128px" />
+              </div>
+            )}
+            <div className="flex-1 min-w-0">
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-1">
+                {species.comName}
+              </h3>
+              <p className="text-sm italic text-gray-500 dark:text-gray-400 mb-3">
+                {species.sciName}
+              </p>
+              {wiki.description && (
+                <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed line-clamp-3">
+                  {wiki.description}
+                </p>
+              )}
+              {wiki.wikiUrl && (
+                <a href={wiki.wikiUrl} target="_blank" rel="noopener noreferrer"
+                  className="inline-block mt-4 text-sm text-sky-600 dark:text-sky-400 hover:underline">
+                  Wikipedia &rarr;
+                </a>
+              )}
+            </div>
           </div>
-        </div>
       </section>
     </div>
   );

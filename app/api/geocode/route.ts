@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
   if (!q) return Response.json({ error: "q is required" }, { status: 400 });
 
   const res = await fetch(
-    `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=1`,
+    `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=1&countrycodes=us`,
     { headers: { "User-Agent": "BirdingWithBrandon/1.0 (birdingwithbrandon.com)" } }
   );
 
