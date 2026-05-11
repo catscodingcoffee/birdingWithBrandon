@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 
-export const metadata: Metadata = { title: "Backyard Birds — Birding with Brandon" };
+export const metadata: Metadata = { title: "Feeder Birds — Birding with Brandon" };
 
 const birds = [
   {
@@ -25,9 +25,9 @@ export default function BackyardBirdsPage() {
   return (
     <div className="space-y-10">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight mb-2">Backyard Birds</h1>
+        <h1 className="text-3xl font-bold tracking-tight mb-2">Feeder Birds</h1>
         <p className="text-gray-600 dark:text-gray-400 max-w-2xl">
-          Common birds you're likely to see and hear right outside your window in Oregon.
+          Common birds you're likely to attract to a feeder in the Pacific Northwest.
         </p>
       </div>
 

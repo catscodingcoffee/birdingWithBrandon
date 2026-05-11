@@ -230,7 +230,7 @@ export default function FlashcardDeck() {
           <button
             onClick={handleUseLocation}
             disabled={loading}
-            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-900 text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 dark:hover:bg-gray-900 text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4" strokeLinecap="round">
               <circle cx="12" cy="12" r="3" />
@@ -258,7 +258,7 @@ export default function FlashcardDeck() {
             </div>
             <button
               onClick={reset}
-              className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors"
+              className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 transition-colors"
             >
               &larr; Back
             </button>

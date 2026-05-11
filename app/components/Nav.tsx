@@ -12,7 +12,6 @@ type NavItem =
 
 
 const navItems: NavItem[] = [
-  { label: "Home", href: "/" },
   {
     label: "Identification",
     children: [
@@ -22,10 +21,10 @@ const navItems: NavItem[] = [
     ],
   },
   {
-    label: "Common Birds",
+    label: "PNW Birds",
     children: [
-      { label: "Backyard", href: "/backyard-birds" },
-      { label: "Wild", href: "/wild-birds" },
+      { label: "Feeder Birds", href: "/backyard-birds" },
+      { label: "Field Birds", href: "/wild-birds" },
     ],
   },
   { label: "Flashcards", href: "/flashcards", highlight: true },
@@ -168,7 +167,7 @@ export default function Nav() {
                   onClick={() => setUserMenuOpen(o => !o)}
                   className="px-3 py-1.5 text-sm font-bold rounded-lg hover:bg-[#a5b9e2]/40 transition-colors text-[#2c5fca] flex items-center gap-1"
                 >
-                  {user.email}
+                  {"Account"}
                   <ChevronDown />
                 </button>
                 {userMenuOpen && (

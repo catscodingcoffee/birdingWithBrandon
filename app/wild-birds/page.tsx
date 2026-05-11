@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 
-export const metadata: Metadata = { title: "Wild Birds — Birding with Brandon" };
+export const metadata: Metadata = { title: "Field Birds — Birding with Brandon" };
 
 const birds = [
   {
@@ -25,9 +25,9 @@ export default function WildBirdsPage() {
   return (
     <div className="space-y-10">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight mb-2">Wild Birds</h1>
+        <h1 className="text-3xl font-bold tracking-tight mb-2">Field Birds</h1>
         <p className="text-gray-600 dark:text-gray-400 max-w-2xl">
-          Birds you're more likely to spot out in the field — in open country, wetlands, and forests across Oregon.
+          Birds you're more likely to encounter out in the field — in open country, wetlands, and forests across the PNW.
         </p>
       </div>
 
