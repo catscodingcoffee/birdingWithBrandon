@@ -1,4 +1,14 @@
 @import "tailwindcss";
 
-/* Class-based dark mode — toggles via .dark on <html> */
-@custom-variant dark (&:where(.dark, .dark *));
+@theme {
+  --color-bluebird: #2c5fca;
+  --color-steel: #C8D4E3;
+  --color-steel-dark: #a5b9e2;
+  --color-cream: #f4ebd4;
+  --color-swan: #e6d2b9;
+}
+
+body {
+  background-color: #f4ebd4;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}

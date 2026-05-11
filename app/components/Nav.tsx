@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import ThemeToggle from "./ThemeToggle";
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase";
 
@@ -52,7 +51,7 @@ const navItems: NavItem[] = [
 
 function ChevronDown() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-3 h-3 opacity-50" strokeLinecap="round">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-3 h-3 opacity-60" strokeLinecap="round">
       <path d="M6 9l6 6 6-6" />
     </svg>
   );
@@ -96,16 +95,16 @@ export default function Nav() {
   }
 
   const linkBase =
-    "px-3 py-2 text-sm rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors";
+    "px-3 py-2 text-sm font-bold text-[#2c5fca] rounded-lg hover:bg-[#a5b9e2]/40 transition-colors";
 
   return (
-    <header className="sticky top-0 z-50 bg-white/90 dark:bg-gray-950/90 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800">
+    <header className="sticky top-0 z-50 bg-[#C8D4E3] border-b border-[#a5b9e2]">
       <div className="max-w-5xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link
             href="/"
-            className="font-semibold text-sky-700 dark:text-sky-400 text-base shrink-0"
+            className="font-bold text-[#2c5fca] text-base shrink-0"
           >
             Birding with Brandon
           </Link>
@@ -121,7 +120,7 @@ export default function Nav() {
                       <ChevronDown />
                     </button>
                     <div className="absolute top-full left-0 pt-1 hidden group-hover:block">
-                      <div className="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 py-1.5 min-w-36">
+                      <div className="bg-[#C8D4E3] rounded-xl shadow-lg border border-[#a5b9e2] py-1.5 min-w-36">
                         {item.children.map((child) =>
                           child.external ? (
                             <a
@@ -129,7 +128,7 @@ export default function Nav() {
                               href={child.href}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="block px-4 py-1.5 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                              className="block px-4 py-1.5 text-sm font-bold text-[#2c5fca] hover:bg-[#a5b9e2]/40 transition-colors"
                             >
                               {child.label}
                             </a>
@@ -137,7 +136,7 @@ export default function Nav() {
                             <Link
                               key={child.label}
                               href={child.href}
-                              className="block px-4 py-1.5 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                              className="block px-4 py-1.5 text-sm font-bold text-[#2c5fca] hover:bg-[#a5b9e2]/40 transition-colors"
                             >
                               {child.label}
                             </Link>
@@ -153,10 +152,7 @@ export default function Nav() {
                 <Link
                   key={item.label}
                   href={item.href}
-                  className={`${linkBase} ${item.highlight
-                      ? "text-sky-600 dark:text-sky-400 font-medium"
-                      : ""
-                    }`}
+                  className={`${linkBase} ${item.highlight ? "underline underline-offset-4" : ""}`}
                 >
                   {item.label}
                 </Link>
@@ -166,23 +162,22 @@ export default function Nav() {
 
           {/* Right controls */}
           <div className="flex items-center gap-1">
-            <ThemeToggle />
             {user ? (
               <div className="relative">
                 <button
                   onClick={() => setUserMenuOpen(o => !o)}
-                  className="px-3 py-1.5 text-sm rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-600 dark:text-gray-400 flex items-center gap-1"
+                  className="px-3 py-1.5 text-sm font-bold rounded-lg hover:bg-[#a5b9e2]/40 transition-colors text-[#2c5fca] flex items-center gap-1"
                 >
                   {user.email}
                   <ChevronDown />
                 </button>
                 {userMenuOpen && (
                   <div className="absolute right-0 top-full pt-1 z-50">
-                    <div className="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 py-1.5 min-w-36">
+                    <div className="bg-steel rounded-xl shadow-lg border border-steel-dark py-1.5 min-w-36">
                       <Link
                         href="/progress"
                         onClick={() => setUserMenuOpen(false)}
-                        className="block px-4 py-1.5 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                        className="block px-4 py-1.5 text-sm font-bold text-[#2c5fca] hover:bg-[#a5b9e2]/40 transition-colors"
                       >
                         My Progress
                       </Link>
@@ -193,7 +188,7 @@ export default function Nav() {
                           setUser(null);
                           setUserMenuOpen(false);
                         }}
-                        className="w-full text-left px-4 py-1.5 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                        className="w-full text-left px-4 py-1.5 text-sm font-bold text-[#2c5fca] hover:bg-[#a5b9e2]/40 transition-colors"
                       >
                         Log out
                       </button>
@@ -202,16 +197,14 @@ export default function Nav() {
                 )}
               </div>
             ) : (
-              <Link href="/login" className="px-3 py-1.5 text-sm rounded-lg text-sky-600 
-  dark:text-sky-400 font-medium hover:bg-gray-100 dark:hover:bg-gray-800        
-  transition-colors">
+              <Link href="/login" className="px-3 py-1.5 text-sm font-bold rounded-lg text-[#2c5fca] hover:bg-[#a5b9e2]/40 transition-colors">
                 Log in
               </Link>
             )}
 
             <button
               onClick={() => setMobileOpen((o) => !o)}
-              className="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-600 dark:text-gray-400"
+              className="md:hidden p-2 rounded-lg hover:bg-[#a5b9e2]/40 transition-colors text-[#2c5fca]"
               aria-label="Toggle menu"
             >
               {mobileOpen ? <XIcon /> : <MenuIcon />}
@@ -222,7 +215,7 @@ export default function Nav() {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <nav className="md:hidden border-t border-gray-200 dark:border-gray-800 py-3">
+        <nav className="md:hidden border-t border-[#a5b9e2] py-3">
           <div className="max-w-5xl mx-auto px-4 space-y-1">
             {navItems.map((item) => {
               if ("children" in item) {
@@ -231,7 +224,7 @@ export default function Nav() {
                   <div key={item.label}>
                     <button
                       onClick={() => toggleDropdown(item.label)}
-                      className="w-full flex justify-between items-center px-3 py-2 text-sm rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                      className="w-full flex justify-between items-center px-3 py-2 text-sm font-bold text-[#2c5fca] rounded-lg hover:bg-[#a5b9e2]/40 transition-colors"
                     >
                       {item.label}
                       <span className={`transition-transform ${isOpen ? "rotate-180" : ""}`}>
@@ -248,7 +241,7 @@ export default function Nav() {
                               target="_blank"
                               rel="noopener noreferrer"
                               onClick={() => setMobileOpen(false)}
-                              className="block px-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+                              className="block px-3 py-2 text-sm font-bold text-[#2c5fca] hover:bg-[#a5b9e2]/40 rounded-lg transition-colors"
                             >
                               {child.label}
                             </a>
@@ -257,7 +250,7 @@ export default function Nav() {
                               key={child.label}
                               href={child.href}
                               onClick={() => setMobileOpen(false)}
-                              className="block px-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+                              className="block px-3 py-2 text-sm font-bold text-[#2c5fca] hover:bg-[#a5b9e2]/40 rounded-lg transition-colors"
                             >
                               {child.label}
                             </Link>
@@ -274,8 +267,7 @@ export default function Nav() {
                   key={item.label}
                   href={item.href}
                   onClick={() => setMobileOpen(false)}
-                  className={`block px-3 py-2 text-sm rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors ${item.highlight ? "text-sky-600 dark:text-sky-400 font-medium" : ""
-                    }`}
+                  className={`block px-3 py-2 text-sm font-bold text-[#2c5fca] rounded-lg hover:bg-[#a5b9e2]/40 transition-colors ${item.highlight ? "underline underline-offset-4" : ""}`}
                 >
                   {item.label}
                 </Link>

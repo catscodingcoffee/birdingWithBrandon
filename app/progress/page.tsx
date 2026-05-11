@@ -39,6 +39,5 @@ import ClearProgressButton from "../components/ClearProgressButton";
             ))}
             <ClearProgressButton />
         </div>
-    
   );
   }

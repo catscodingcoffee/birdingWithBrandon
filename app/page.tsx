@@ -119,15 +119,15 @@ export default async function Home() {
               <div
                 className={`group flex flex-col gap-3 p-5 rounded-2xl border transition-all h-full ${
                   f.highlight
-                    ? "border-sky-200 dark:border-sky-800 bg-sky-50 dark:bg-sky-950/40 hover:border-sky-400 dark:hover:border-sky-600"
-                    : "border-gray-200 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-900/50"
+                    ? "border-[#a5b9e2] bg-[#C8D4E3]/50 hover:border-bluebird"
+                    : "border-[#e6d2b9] hover:border-[#a5b9e2] hover:bg-[#e6d2b9]/40"
                 }`}
               >
                 <span
                   className={
                     f.highlight
-                      ? "text-sky-600 dark:text-sky-400"
-                      : "text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors"
+                      ? "text-[#2c5fca]"
+                      : "text-gray-500 group-hover:text-[#2c5fca] transition-colors"
                   }
                 >
                   {f.icon}
@@ -135,9 +135,7 @@ export default async function Home() {
                 <div>
                   <h3
                     className={`font-semibold mb-1 ${
-                      f.highlight
-                        ? "text-sky-700 dark:text-sky-300"
-                        : "text-gray-900 dark:text-gray-100"
+                      f.highlight ? "text-[#2c5fca]" : "text-gray-900"
                     }`}
                   >
                     {f.title}
@@ -173,7 +171,7 @@ export default async function Home() {
         <h2 className="text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-5">
             Bird of the Day
           </h2>
-          <div className="flex gap-6 p-6 rounded-2xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/50">
+          <div className="flex gap-6 p-6 rounded-2xl border border-[#e6d2b9] bg-[#e6d2b9]/30">
             {wiki.imageUrl && (
               <div className="relative w-32 h-32 shrink-0 rounded-xl overflow-hidden bg-black">
                 <Image src={wiki.imageUrl} alt={species.comName} fill className="object-cover" sizes="128px" />
@@ -193,7 +191,7 @@ export default async function Home() {
               )}
               {wiki.wikiUrl && (
                 <a href={wiki.wikiUrl} target="_blank" rel="noopener noreferrer"
-                  className="inline-block mt-4 text-sm text-sky-600 dark:text-sky-400 hover:underline">
+                  className="inline-block mt-4 text-sm text-[#2c5fca] hover:underline">
                   Wikipedia &rarr;
                 </a>
               )}
