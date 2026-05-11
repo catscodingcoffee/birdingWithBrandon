@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* dark: only activates on .dark class — never added, so all dark: variants are inert */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --color-bluebird: #2c5fca;
   --color-steel: #C8D4E3;
