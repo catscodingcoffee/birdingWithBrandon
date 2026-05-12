@@ -2,7 +2,7 @@ import PhotoGrid from "../components/PhotoGrid";
 
 interface CloudinaryResource {
   public_id: string;
-  secure_url: string;
+  format: string;
 }
 
 export default async function PhotosPage() {
@@ -20,8 +20,8 @@ export default async function PhotosPage() {
         .replace(/[-_]\d+$/, "")
         .replace(/[-_]/g, " ")
         .replace(/\b\w/g, (c) => c.toUpperCase()),
-      imageUrl: item.secure_url,
-      link: item.secure_url,
+      imageUrl: `https://res.cloudinary.com/dl8hrku6q/image/upload/${item.public_id}.${item.format}`,
+      link: `https://res.cloudinary.com/dl8hrku6q/image/upload/${item.public_id}.${item.format}`,
     }));
 
     return (
