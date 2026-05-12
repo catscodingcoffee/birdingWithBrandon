@@ -10,7 +10,7 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "live.staticflickr.com",
+        hostname: "res.cloudinary.com",
         pathname: "/**",
       },
     ],

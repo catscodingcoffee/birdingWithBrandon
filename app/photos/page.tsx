@@ -1,25 +1,27 @@
 import PhotoGrid from "../components/PhotoGrid";
 
-interface FlickrResult {
-  title: string;
-  link: string;
-  media: { m: string };
+interface CloudinaryResource {
+  public_id: string;
+  secure_url: string;
 }
 
 export default async function PhotosPage() {
-    const res = await
-  fetch("https://api.flickr.com/services/feeds/photos_public.gne?id=201004382@N04&set=72177720333606519&format=json&nojsoncallback=1&set=72177720333606519",
+    const res = await fetch(
+      "https://res.cloudinary.com/dl8hrku6q/image/list/bird.json",
       { next: { revalidate: 3600 } }
     );
-    
+
     if (!res.ok) return <p>Failed to load photos.</p>;
 
     const data = await res.json();
 
-    const photos = data.items.map((item: FlickrResult) => ({
-      title: item.title,
-      imageUrl: item.media.m.replace("_m.", "_b."),  // upgrade to large size
-      link: item.link
+    const photos = (data.resources as CloudinaryResource[]).map((item) => ({
+      title: (item.public_id.split("/").pop() ?? item.public_id)
+        .replace(/[-_]\d+$/, "")
+        .replace(/[-_]/g, " ")
+        .replace(/\b\w/g, (c) => c.toUpperCase()),
+      imageUrl: item.secure_url,
+      link: item.secure_url,
     }));
 
     return (
