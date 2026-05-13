@@ -25,6 +25,7 @@ const navItems: NavItem[] = [
     children: [
       { label: "Feeder Birds", href: "/backyard-birds" },
       { label: "Field Birds", href: "/wild-birds" },
+      { label: "Bird Sounds", href: "/recordings" },
     ],
   },
   { label: "Flashcards", href: "/flashcards", highlight: true },
@@ -43,7 +44,6 @@ const navItems: NavItem[] = [
     children: [
       { label: "eBird List", href: "https://ebird.org/profile/MzU0MTIwNw", external: true },
       { label: "Photos", href: "/photos" },
-      { label: "Recordings", href: "/recordings" },
     ],
   },
 ];
