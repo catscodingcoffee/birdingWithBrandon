@@ -18,6 +18,7 @@ const navItems: NavItem[] = [
       { label: "Equipment", href: "/equipment" },
       { label: "Visual", href: "/visual" },
       { label: "Auditory", href: "/auditory" },
+      { label: "Pinterest Board", href: "/board" },
     ],
   },
   {
