@@ -1,6 +1,7 @@
 import { fetchWikiInfo } from "@/lib/wiki";
 import Link from "next/link";
 import Image from "next/image";
+import { createServerSupabaseClient } from "@/lib/supabase-server";
 
 export const revalidate = 86400; // revalidate once per day
 
@@ -81,12 +82,12 @@ const features = [
 
 export default async function Home() {
   const taxRes = await fetch(
-          "https://api.ebird.org/v2/ref/taxonomy/ebird?fmt=json&cat=species",
-          {
-            headers: { "X-eBirdApiToken": process.env.EBIRD_API_KEY! },
-            next: { revalidate: 86400 },
-          }
-        );
+    "https://api.ebird.org/v2/ref/taxonomy/ebird?fmt=json&cat=species",
+    {
+      headers: { "X-eBirdApiToken": process.env.EBIRD_API_KEY! },
+      next: { revalidate: 86400 },
+    }
+  );
   const taxonomy = await taxRes.json();
 
   // deterministic daily index
@@ -95,6 +96,18 @@ export default async function Home() {
   const species = taxonomy[seed % taxonomy.length];
 
   const wiki = await fetchWikiInfo(species.comName, species.sciName);
+  const supabase = await createServerSupabaseClient();
+
+  const { data,error } = await supabase
+  .from("detections")
+  .select("*")
+  .order("detected_at",{ascending:false})
+  .limit(5);
+
+  console.log(data)
+
+
+
   return (
     <div className="space-y-16">
       {/* Hero */}
@@ -117,11 +130,10 @@ export default async function Home() {
           {features.map((f) => {
             const inner = (
               <div
-                className={`group flex flex-col gap-3 p-5 rounded-2xl border transition-all h-full ${
-                  f.highlight
+                className={`group flex flex-col gap-3 p-5 rounded-2xl border transition-all h-full ${f.highlight
                     ? "border-[#a5b9e2] bg-[#C8D4E3]/50 hover:border-bluebird"
                     : "border-[#e6d2b9] hover:border-[#a5b9e2] hover:bg-[#e6d2b9]/40"
-                }`}
+                  }`}
               >
                 <span
                   className={
@@ -134,9 +146,8 @@ export default async function Home() {
                 </span>
                 <div>
                   <h3
-                    className={`font-semibold mb-1 ${
-                      f.highlight ? "text-[#2c5fca]" : "text-gray-900"
-                    }`}
+                    className={`font-semibold mb-1 ${f.highlight ? "text-[#2c5fca]" : "text-gray-900"
+                      }`}
                   >
                     {f.title}
                   </h3>
@@ -166,9 +177,11 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Bird of the week */}
-      <section>
-        <h2 className="text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-5">
+
+      <div className="flex flex-col lg:flex-row gap-6 items-start">
+        {/* Bird of the week */}
+        <section className="w-full lg:w-2/3">
+          <h2 className="text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-5">
             Bird of the Day
           </h2>
           <div className="flex gap-6 p-6 rounded-2xl border border-[#e6d2b9] bg-[#e6d2b9]/30">
@@ -197,7 +210,14 @@ export default async function Home() {
               )}
             </div>
           </div>
-      </section>
+        </section >
+        {/* Recent Detections */}
+        <section className="w-full lg:w-1/3">
+              <h2 className="text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-5">
+            Recent Home Detections
+          </h2>
+        </section>
+      </div>
     </div>
   );
 }
