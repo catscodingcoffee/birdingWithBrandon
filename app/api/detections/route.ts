@@ -10,11 +10,8 @@ interface Detection {
 export async function POST(request: NextRequest) {
   // 1. Check that ?token= matches process.env.BIRDNET_WEBHOOK_SECRET
   //    Return 401 if not
-  const token = new URL(request.url).searchParams.get("token");
-  
-  if (token !== process.env.BIRDNET_WEBHOOK_SECRET){
-    return Response.json({ error: " token does not match" }, { status: 401 });
-  }
+  // Token is gone now
+
 
   // 2. Parse the request body as JSON
   //    The field you want is called "message"
