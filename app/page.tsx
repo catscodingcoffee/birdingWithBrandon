@@ -104,9 +104,6 @@ export default async function Home() {
   .order("detected_at",{ascending:false})
   .limit(5);
 
-  console.log(data)
-
-
 
   return (
     <div className="space-y-16">
@@ -216,6 +213,17 @@ export default async function Home() {
               <h2 className="text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-5">
             Recent Home Detections
           </h2>
+          <div className="flex gap-6 p-6 rounded-2xl border border-[#e6d2b9] bg-[#e6d2b9]/30">
+            {data && data.length > 0 ? (
+              data.map((detection) => (
+                <div key={detection.id}>
+                  {detection.common_name}
+                </div>
+              ))
+            ) :(
+              <p>No recent detections</p>
+            )}
+              </div>
         </section>
       </div>
     </div>

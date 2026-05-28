@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
   //    Format: "A Orange-crowned Warbler (Leiothlypis celata) was just detected with a confidence of 0.7101"
   //    Return 400 if the regex doesn't match
   
-  const match = appriseResp.match(/^A (.+?) \((.+?)\) was just detected with a confidence of ([\d.]+)/)
+  const match = appriseResp.match(/^A (.+?) \((.+?)\)\s+was just detected with a confidence of ([\d.]+)/)
 
   if (!match) {
     return Response.json({ error: "Could not parse message" }, { status: 400 })
