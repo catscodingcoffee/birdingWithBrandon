@@ -219,7 +219,7 @@ export default async function Home() {
                 <div className="flex items-center gap-4 py-2 border-b border-[#e6d2b9]" key={detection.id}>
                   <div className="w-2/3">{detection.common_name}</div>
                   <div className="w-16">{(detection.confidence * 100).toFixed(0) + "%"}</div>
-                  <div className="w-32">{new Date(detection.detected_at).toLocaleTimeString()}</div>
+                  <div className="w-32">{new Date(detection.detected_at).toLocaleTimeString('en-US',{timeZone:'America/Los_Angeles'})}</div>
                 </div>
               ))
             ) :(
