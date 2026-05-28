@@ -213,11 +213,13 @@ export default async function Home() {
               <h2 className="text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-5">
             Recent Home Detections
           </h2>
-          <div className="flex gap-6 p-6 rounded-2xl border border-[#e6d2b9] bg-[#e6d2b9]/30">
+          <div className="flex flex-col p-6 rounded-2xl border border-[#e6d2b9] bg-[#e6d2b9]/30">
             {data && data.length > 0 ? (
               data.map((detection) => (
-                <div key={detection.id}>
-                  {detection.common_name}
+                <div className="flex items-center gap-4 py-2 border-b border-[#e6d2b9]" key={detection.id}>
+                  <div className="w-2/3">{detection.common_name}</div>
+                  <div className="w-16">{(detection.confidence * 100).toFixed(0) + "%"}</div>
+                  <div className="w-32">{new Date(detection.detected_at).toLocaleTimeString()}</div>
                 </div>
               ))
             ) :(
