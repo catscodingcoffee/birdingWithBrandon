@@ -16,7 +16,6 @@ export async function POST(request: NextRequest) {
   // 2. Parse the request body as JSON
   //    The field you want is called "message"
   const body = await request.json();
-  console.log("Body:", JSON.stringify(body));
   const appriseResp = body.message;
 
 
