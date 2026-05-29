@@ -119,7 +119,7 @@ export default function Nav() {
                       {item.label}
                       <ChevronDown />
                     </button>
-                    <div className={'absolute top-full left-0 pt-1 ${openDropdown === item.label ? "block":"hidden group-hover:block"}'}>
+                    <div className={`absolute top-full left-0 pt-1 ${openDropdown === item.label ? "block":"hidden group-hover:block"}`}>
                       <div className="bg-[#C8D4E3] rounded-xl shadow-lg border border-[#a5b9e2] py-1.5 min-w-36">
                         {item.children.map((child) =>
                           child.external ? (
