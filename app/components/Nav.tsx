@@ -115,11 +115,11 @@ export default function Nav() {
               if ("children" in item) {
                 return (
                   <div key={item.label} className="relative group">
-                    <button className={`${linkBase} flex items-center gap-1`}>
+                    <button onClick={() => toggleDropdown(item.label)} className={`${linkBase} flex items-center gap-1`}>
                       {item.label}
                       <ChevronDown />
                     </button>
-                    <div className="absolute top-full left-0 pt-1 hidden group-hover:block">
+                    <div className={'absolute top-full left-0 pt-1 ${openDropdown === item.label ? "block":"hidden group-hover:block"}'}>
                       <div className="bg-[#C8D4E3] rounded-xl shadow-lg border border-[#a5b9e2] py-1.5 min-w-36">
                         {item.children.map((child) =>
                           child.external ? (
