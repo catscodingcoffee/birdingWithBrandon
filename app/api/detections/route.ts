@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
   //    Return 401 if not
   // Token is gone now
   const token = new URL(request.url).searchParams.get("token")
-  if (token !== process.env.BIRDNET_WEBHOOK_SECRET){
+  if (!token || token !== process.env.BIRDNET_WEBHOOK_SECRET){
     return Response.json({error:"Unauthorized"},{status:401});
   }
 
