@@ -25,15 +25,18 @@ export default function BoardPage() {
 
   return (
     <main>
+
       <a
+        target="_blank"
+        rel="noopener noreferrer"
         data-pin-do="embedBoard"
         data-pin-board-width="400"
         data-pin-scale-height="240"
         data-pin-scale-width="80"
         href={BOARD_URL}
-        className="text-bluebird underline"
+        
       >
-        View Board on Pinterest
+        <img src="/images/pint_thumb.png" alt="Bird identification Pinterest board" className="rounded-lg w-64" />
       </a>
     </main>
   )
