@@ -32,20 +32,15 @@ const features = [
     ),
   },
   {
-    title: "Rare Oregon Sightings",
-    description: "Live rare bird alerts for Oregon, powered by eBird.",
-    href: "https://ebird.org/alert/summary?sid=SN35555",
-    external: true,
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-7 h-7" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17.3l-6.2 4.1 2.4-7.4L2 9.4h7.6z" />
-      </svg>
-    ),
+    title: "Pinterest Boards",
+    description: "My Pinterest boards with helpful birding information. Follow me @brandon_smith3",
+    href: "/board",
+    icon: <Image src="/images/P-Badge-Black-CMYK.svg" alt="Pinterest" width={28} height={28} />,
   },
   {
     title: "Top Oregon Spots",
     description: "The best birding locations across the Pacific Northwest.",
-    href: "/locations",
+    href: "/top-spots",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-7 h-7" strokeLinecap="round" strokeLinejoin="round">
         <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
