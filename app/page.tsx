@@ -19,15 +19,13 @@ const features = [
     ),
   },
   {
-    title: "Identification Tips",
-    description: "Visual and auditory cues to confidently identify birds in the field.",
-    href: "/identification",
+    title: "Photos",
+    description: "Field photos of birds I have observed from locations such as Oregon, Washington, and Iceland",
+    href: "/photos",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-7 h-7" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M2 12C2 6.48 6.48 2 12 2c3.5 0 6.5 1.8 8.3 4.5" />
-        <path d="M22 12c0 5.52-4.48 10-10 10" />
-        <path d="M15 9l-6 6M9 9l6 6" />
-        <circle cx="12" cy="12" r="3" />
+        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+        <circle cx="12" cy="13" r="4" />
       </svg>
     ),
   },
