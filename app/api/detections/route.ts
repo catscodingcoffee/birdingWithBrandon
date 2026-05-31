@@ -8,9 +8,10 @@ interface Detection {
 }
 
 export async function POST(request: NextRequest) {
-  // 1. Check that ?token= matches process.env.BIRDNET_WEBHOOK_SECRET
-  //    Return 401 if not
-  // Token is gone now
+  const token = new URL(request.url).searchParams.get("token");
+  if (!token || token !== process.env.BIRDNET_WEBHOOK_SECRET) {
+    return Response.json({ error: "Unauthorized" }, { status: 401 });
+  }
 
 
   // 2. Parse the request body as JSON
