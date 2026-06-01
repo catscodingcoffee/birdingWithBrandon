@@ -63,7 +63,7 @@ const features = [
     title: "Hotspot Flashcards",
     description: "Enter any location to study the birds at nearby eBird hotspots.",
     href: "/flashcards",
-    highlight: true,
+    highlight: false,
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-7 h-7" strokeLinecap="round" strokeLinejoin="round">
         <rect x="2" y="5" width="20" height="14" rx="2" />

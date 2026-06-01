@@ -18,7 +18,6 @@ const navItems: NavItem[] = [
       { label: "Equipment", href: "/equipment" },
       { label: "Visual", href: "/visual" },
       { label: "Auditory", href: "/auditory" },
-      { label: "Pinterest Board", href: "/board" },
     ],
   },
   {
@@ -29,7 +28,7 @@ const navItems: NavItem[] = [
       { label: "Bird Sounds", href: "/recordings" },
     ],
   },
-  { label: "Flashcards", href: "/flashcards", highlight: true },
+  { label: "Flashcards", href: "/flashcards", highlight: false },
   {
     label: "Resources",
     children: [
@@ -43,8 +42,9 @@ const navItems: NavItem[] = [
   {
     label: "My Birding",
     children: [
-      { label: "eBird List", href: "https://ebird.org/profile/MzU0MTIwNw", external: true },
       { label: "Photos", href: "/photos" },
+      { label: "Pinterest Boards", href: "/boards" },
+      { label: "eBird List", href: "https://ebird.org/profile/MzU0MTIwNw", external: true },
     ],
   },
 ];
