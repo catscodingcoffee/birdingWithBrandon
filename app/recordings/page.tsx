@@ -78,9 +78,15 @@ export default async function RecordingsPage() {
               Credit the recordist with a link: <a href={r.url}>{r.rec}</a>
             */}
             <audio controls src={r.file} className="w-full" />
-            <p>Recordist: <a href={r.url} target="_blank" rel="noopener noreferrer" className="underline">
+            <p>Recordist: 
+              <a 
+              href={r.url} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="underline">
               {r.rec}
-            </a></p>
+              </a>
+            </p>
           </div>
         ))}
       </section>
@@ -96,7 +102,7 @@ export default async function RecordingsPage() {
         >
           Xeno-canto
         </a>
-        . Licenses vary by recording — click any recordist name to view the original.
+        Licenses vary by recording — click any recordist name to view the original.
       </p>
     </div>
   );

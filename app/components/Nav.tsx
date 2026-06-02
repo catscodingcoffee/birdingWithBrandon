@@ -13,6 +13,14 @@ type NavItem =
 
 const navItems: NavItem[] = [
   {
+    label: "My Birding",
+    children: [
+      { label: "Photos", href: "/photos" },
+      { label: "Pinterest Boards", href: "/boards" },
+      { label: "eBird List", href: "https://ebird.org/profile/MzU0MTIwNw", external: true },
+    ],
+  },
+  {
     label: "Identification",
     children: [
       { label: "Equipment", href: "/equipment" },
@@ -28,7 +36,6 @@ const navItems: NavItem[] = [
       { label: "Bird Sounds", href: "/recordings" },
     ],
   },
-  { label: "Flashcards", href: "/flashcards", highlight: false },
   {
     label: "Resources",
     children: [
@@ -39,13 +46,9 @@ const navItems: NavItem[] = [
       { label: "OBA", href: "https://oregonbirding.org", external: true },
     ],
   },
-  {
-    label: "My Birding",
-    children: [
-      { label: "Photos", href: "/photos" },
-      { label: "Pinterest Boards", href: "/boards" },
-      { label: "eBird List", href: "https://ebird.org/profile/MzU0MTIwNw", external: true },
-    ],
+  { label: "Flashcards", 
+    href: "/flashcards", 
+    highlight: true 
   },
 ];
 

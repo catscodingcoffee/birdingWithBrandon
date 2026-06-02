@@ -32,7 +32,7 @@ const features = [
   {
     title: "Pinterest Boards",
     description: "My Pinterest boards with helpful birding information. Follow me @brandon_smith3",
-    href: "/board",
+    href: "/boards",
     icon: <Image src="/images/P-Badge-Black-CMYK.svg" alt="Pinterest" width={28} height={28} />,
   },
   {
