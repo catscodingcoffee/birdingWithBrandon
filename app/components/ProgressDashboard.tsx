@@ -45,21 +45,28 @@ export default function ProgressDashboard({ summary, speciesStats, hotspotStats 
           Look at how the home page renders its two-column section cards for a style reference. */}
       <section>
         <h2 className="text-xs font-semibold uppercase tracking-widest text-gray-800 dark:text-gray-500 mb-5">
-          Explore
+          Overview
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className = "group flex flex-col gap-3 p-5 border rounded-2xl border-[#e6d2b9] transition-all h-full">
+            <p className = "text-3xl font-bold">{summary.totalSessions}</p>
+            <p className = "text-sm text-gray-500 ">Sessions</p>
+          </div>
+          <div className = "group flex flex-col gap-3 p-5 border rounded-2xl border-[#e6d2b9] transition-all h-full">
+            <p className = "text-3xl font-bold">{summary.uniqueHotspots}</p>
+            <p className = "text-sm text-gray-500 ">Unique Hot Spots</p>
+          </div>
+          <div className = "group flex flex-col gap-3 p-5 border rounded-2xl border-[#e6d2b9] transition-all h-full">
+            <p className = "text-3xl font-bold">{summary.uniqueSpecies}</p> 
+            <p className = "text-sm text-gray-500 ">Unique Species</p>
+          </div>
+          <div className = "group flex flex-col gap-3 p-5 border rounded-2xl border-[#e6d2b9] transition-all h-full">
+            <p className = "text-3xl font-bold">{summary.overallAccuracy}%</p>
+            <p className = "text-sm text-gray-500 ">Overall Accuracy</p>
+          </div>
           
         </div>
       </section>
-
-
-
-
-
-
-
-
-
 
 
       {/* Tab switcher */}
