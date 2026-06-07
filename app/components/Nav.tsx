@@ -33,7 +33,6 @@ const navItems: NavItem[] = [
     children: [
       { label: "Feeder Birds", href: "/backyard-birds" },
       { label: "Field Birds", href: "/wild-birds" },
-      { label: "Bird Sounds", href: "/recordings" },
     ],
   },
   {

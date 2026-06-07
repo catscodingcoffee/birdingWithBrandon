@@ -70,9 +70,11 @@ export async function GET() {
 
   // 3. Return 500 if error, otherwise return the data as JSON
   if (error) {
-    return Response.json({ error: error.message }, { status: 500 });
+    return Response.json({ error: "Error"}, { status: 500 }); //generic error not to reveal db info
   }
 
  
   return Response.json(data);
 }
+
+
