@@ -57,6 +57,7 @@ export default function FlashcardDeck() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [results,setResults] = useState<Record<string, "got_it" | "not_yet">>({});
+  const [deckSize, setDeckSize] = useState<5 | 10 | 15 | 25 | "all">(10);
 
 
   async function fetchHotspots(lat: number, lng: number) {
@@ -118,7 +119,7 @@ export default function FlashcardDeck() {
       if (!res.ok) throw new Error("Failed to fetch birds");
       const data: Bird[] = await res.json();
       if (data.length === 0) throw new Error("No recent observations at this hotspot");
-      setBirds(data);
+      setBirds(deckSize === "all" ? data : data.slice(0, deckSize));
       setCurrentIndex(0);
       setIsFlipped(false);
       setStep("studying");
@@ -256,12 +257,29 @@ export default function FlashcardDeck() {
                 {hotspots.length} hotspots within 25 miles
               </p>
             </div>
-            <button
-              onClick={reset}
-              className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 transition-colors"
-            >
-              &larr; Back
-            </button>
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
+                <label htmlFor="deck-size" className="text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap">Deck size</label>
+                <select
+                  id="deck-size"
+                  value={deckSize}
+                  onChange={(e) => setDeckSize(e.target.value === "all" ? "all" : Number(e.target.value) as 5 | 10 | 15 | 25)}
+                  className="px-2 py-1 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm"
+                >
+                  <option value={5}>5</option>
+                  <option value={10}>10</option>
+                  <option value={15}>15</option>
+                  <option value={25}>25</option>
+                  <option value="all">All</option>
+                </select>
+              </div>
+              <button
+                onClick={reset}
+                className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 transition-colors"
+              >
+                &larr; Back
+              </button>
+            </div>
           </div>
 
           {loading && <Spinner />}
