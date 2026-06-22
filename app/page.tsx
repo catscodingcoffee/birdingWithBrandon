@@ -74,28 +74,56 @@ const features = [
 ];
 
 export default async function Home() {
-  const taxRes = await fetch(
-    "https://api.ebird.org/v2/ref/taxonomy/ebird?fmt=json&cat=species",
-    {
-      headers: { "X-eBirdApiToken": process.env.EBIRD_API_KEY! },
-      next: { revalidate: 86400 },
-    }
-  );
-  const taxonomy = await taxRes.json();
 
-  // deterministic daily index
-  const today = new Date().toISOString().slice(0, 10); // "2026-05-09"
-  const seed = parseInt(today.replace(/-/g, ""), 10);
-  const species = taxonomy[seed % taxonomy.length];
+  const REGIONS = ["US-OR", "US-WA"]
+
+  let species: { comName: string, sciName: string };
+  try {
+    const lists = await Promise.all(
+      REGIONS.map((r) => fetch(
+        "https://api.ebird.org/v2/product/spplist/" + r,
+        {
+          headers: { "X-eBirdApiToken": process.env.EBIRD_API_KEY! },
+          next: { revalidate: 86400 },
+        }
+      ).then((res) => res.json()))
+    );
+
+
+    // deterministic daily index
+    const today = new Date().toISOString().slice(0, 10); // "2026-05-09"
+    const seed = parseInt(today.replace(/-/g, ""), 10);
+    const codes = [...new Set(lists.flat())].sort();
+    const speciesCode = codes[seed % codes.length];
+
+    const taxRes = await fetch(
+      `https://api.ebird.org/v2/ref/taxonomy/ebird?species=${speciesCode}&fmt=json`,
+      {
+        headers: { "X-eBirdApiToken": process.env.EBIRD_API_KEY! },
+        next: { revalidate: 86400 },
+      }
+    );
+
+
+
+    const [first] = await taxRes.json();
+
+    if (!first) throw new Error("empty");
+    species = first;
+
+  } catch {
+    species = { comName: "American Robin", sciName: "Turdus migratorius" };
+  }
+
 
   const wiki = await fetchWikiInfo(species.comName, species.sciName);
   const supabase = await createServerSupabaseClient();
 
-  const { data,error } = await supabase
-  .from("detections")
-  .select("*")
-  .order("detected_at",{ascending:false})
-  .limit(5);
+  const { data, error } = await supabase
+    .from("detections")
+    .select("*")
+    .order("detected_at", { ascending: false })
+    .limit(5);
 
 
   return (
@@ -121,8 +149,8 @@ export default async function Home() {
             const inner = (
               <div
                 className={`group flex flex-col gap-3 p-5 rounded-2xl border transition-all h-full ${f.highlight
-                    ? "border-[#a5b9e2] bg-[#C8D4E3]/50 hover:border-bluebird"
-                    : "border-[#e6d2b9] hover:border-[#a5b9e2] hover:bg-[#e6d2b9]/40"
+                  ? "border-[#a5b9e2] bg-[#C8D4E3]/50 hover:border-bluebird"
+                  : "border-[#e6d2b9] hover:border-[#a5b9e2] hover:bg-[#e6d2b9]/40"
                   }`}
               >
                 <span
@@ -203,36 +231,36 @@ export default async function Home() {
         </section >
         {/* Recent Detections */}
         <section className="w-full lg:w-2/5">
-              <h2 className="text-xs font-semibold uppercase tracking-widest text-gray-800 dark:text-gray-500 mb-5">
+          <h2 className="text-xs font-semibold uppercase tracking-widest text-gray-800 dark:text-gray-500 mb-5">
             Recent Home Detections
           </h2>
           <div className="flex flex-col p-6 rounded-2xl border border-[#e6d2b9] bg-[#e6d2b9]/30">
-          <div className="flex items-center gap-4 py-2 border-b border-[#e6d2b9]">
-                  <div className="w-2/3">Name</div>
-                  <div className="w-30">Confidence</div>
-                  <div className="w-40">Time(PST)</div>
-          </div>
+            <div className="flex items-center gap-4 py-2 border-b border-[#e6d2b9]">
+              <div className="w-2/3">Name</div>
+              <div className="w-30">Confidence</div>
+              <div className="w-40">Time(PST)</div>
+            </div>
             {data && data.length > 0 ? (
               data.map((detection) => (
                 <div className="flex items-center gap-4 py-2 border-b border-[#e6d2b9]" key={detection.id}>
                   <div className="w-2/3">{detection.common_name}</div>
                   <div className="w-16">{(detection.confidence * 100).toFixed(0) + "%"}</div>
-    
+
                   <div className="w-32">{new Date(detection.detected_at)
-                  .toLocaleTimeString('en-US',
-                    {
-                    timeZone:'America/Los_Angeles',
-                    hour: "numeric", 
-                    minute: "2-digit"
-                    }
+                    .toLocaleTimeString('en-US',
+                      {
+                        timeZone: 'America/Los_Angeles',
+                        hour: "numeric",
+                        minute: "2-digit"
+                      }
                     )}
                   </div>
                 </div>
               ))
-            ) :(
+            ) : (
               <p>No recent detections</p>
             )}
-              </div>
+          </div>
         </section>
       </div>
     </div>
