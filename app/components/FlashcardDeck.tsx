@@ -368,7 +368,7 @@ export default function FlashcardDeck() {
                     <Image
                       src={bird.imageUrl}
                       alt="Bird"
-                      fill priority
+                      fill priority unoptimized
                       className="object-contain"
                       sizes="(max-width: 672px) 100vw, 672px"
                     />
@@ -393,6 +393,7 @@ export default function FlashcardDeck() {
                   alt=""
                   fill
                   aria-hidden
+                  unoptimized
                   className="opacity-0 pointer-events-none"
                   sizes="(max-width: 672px) 100vw, 672px"
                 />

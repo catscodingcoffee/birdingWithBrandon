@@ -177,7 +177,7 @@ export default async function Home() {
           <div className="flex gap-6 p-6 rounded-2xl border border-[#e6d2b9] bg-[#e6d2b9]/30">
             {wiki.imageUrl && (
               <div className="relative w-32 h-32 shrink-0 rounded-xl overflow-hidden bg-black">
-                <Image src={wiki.imageUrl} alt={species.comName} fill className="object-cover" sizes="128px" />
+                <Image src={wiki.imageUrl} alt={species.comName} fill unoptimized className="object-cover" sizes="128px" />
               </div>
             )}
             <div className="flex-1 min-w-0">
