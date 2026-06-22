@@ -23,6 +23,7 @@ interface Bird {
 
 type Step = "location" | "hotspots" | "studying"|"summary";
 
+
 function BirdPlaceholder() {
   return (
     <div className="flex-1 flex items-center justify-center bg-sky-50 dark:bg-sky-950/40">
@@ -119,7 +120,8 @@ export default function FlashcardDeck() {
       if (!res.ok) throw new Error("Failed to fetch birds");
       const data: Bird[] = await res.json();
       if (data.length === 0) throw new Error("No recent observations at this hotspot");
-      setBirds(deckSize === "all" ? data : data.slice(0, deckSize));
+      const deck = deckSize === "all" ? data : data.slice(0, deckSize);
+      setBirds(deck);
       setCurrentIndex(0);
       setIsFlipped(false);
       setStep("studying");
@@ -192,6 +194,7 @@ export default function FlashcardDeck() {
   }
 
   const bird = birds[currentIndex];
+  const nextImageUrl = birds[currentIndex + 1]?.imageUrl;
 
   return (
     <div className="max-w-2xl mx-auto space-y-8">
@@ -365,7 +368,7 @@ export default function FlashcardDeck() {
                     <Image
                       src={bird.imageUrl}
                       alt="Bird"
-                      fill
+                      fill priority
                       className="object-contain"
                       sizes="(max-width: 672px) 100vw, 672px"
                     />
@@ -382,6 +385,18 @@ export default function FlashcardDeck() {
                   </>
                 )}
               </div>
+
+              {/* Prewarm the next card's image (hidden) so flipping forward feels instant */}
+              {nextImageUrl && (
+                <Image
+                  src={nextImageUrl}
+                  alt=""
+                  fill
+                  aria-hidden
+                  className="opacity-0 pointer-events-none"
+                  sizes="(max-width: 672px) 100vw, 672px"
+                />
+              )}
 
               {/* Back */}
               <div
