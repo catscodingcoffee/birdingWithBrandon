@@ -26,6 +26,20 @@ export async function POST(request: NextRequest) {
   //    Format: "A Orange-crowned Warbler (Leiothlypis celata) was just detected with a confidence of 0.7101"
   //    Return 400 if the regex doesn't match
   
+
+  // Parses a detection sentence like:
+  //   "A Northern Cardinal (Cardinalis cardinalis) was just detected with a confidence of 0.87"
+  // and captures three values:
+  //   group 1 (.+?)    -> common name      e.g. "Northern Cardinal"
+  //   group 2 (.+?)    -> scientific name  e.g. "Cardinalis cardinalis"
+  //   group 3 ([\d.]+) -> confidence       e.g. "0.87"
+  //
+  // Notes:
+  //   ^        anchors the match to the start of the string
+  //   \( \)    match literal parentheses (escaped so they aren't capture groups)
+  //   .+?      lazy match — stops at the first delimiter so the name and
+  //            scientific name split cleanly instead of being swallowed together
+  //   \s+      one or more whitespace characters
   const match = appriseResp.match(/^A (.+?) \((.+?)\)\s+was just detected with a confidence of ([\d.]+)/)
 
   if (!match) {
@@ -48,7 +62,7 @@ export async function POST(request: NextRequest) {
   });
 
   if (error) {
-    console.error("Supabase insert error:", error);
+    //console.error("Supabase insert error:", error);
     return Response.json({ error: "Internal server error" }, { status: 500 });
   }
 

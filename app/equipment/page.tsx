@@ -56,17 +56,17 @@ export default function EquipmentPage() {
         <h2 className="text-sm font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-5">
           Entry-Level Binoculars
         </h2>
-        <div className="overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-800">
+        <div className="overflow-x-auto bg-white overflow-hidden rounded-xl border border-bluebird/20 dark:border-gray-800">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900">
-                <th className="text-left px-4 py-3 font-medium text-gray-700 dark:text-gray-300">Brand</th>
-                <th className="text-left px-4 py-3 font-medium text-gray-700 dark:text-gray-300">Model</th>
-                <th className="text-left px-4 py-3 font-medium text-gray-700 dark:text-gray-300">Magnification</th>
-                <th className="text-left px-4 py-3 font-medium text-gray-700 dark:text-gray-300">Objective</th>
-                <th className="text-left px-4 py-3 font-medium text-gray-700 dark:text-gray-300">Price</th>
-                <th className="text-left px-4 py-3 font-medium text-gray-700 dark:text-gray-300">Pros</th>
-                <th className="text-left px-4 py-3 font-medium text-gray-700 dark:text-gray-300">Cons</th>
+              <tr className="border-b border-gray-200 dark:border-gray-800 bg-bluebird dark:bg-gray-900">
+                <th className="text-left px-4 py-3 font-medium text-white/90 dark:text-gray-300">Brand</th>
+                <th className="text-left px-4 py-3 font-medium text-white/90 dark:text-gray-300">Model</th>
+                <th className="text-left px-4 py-3 font-medium text-white/90 dark:text-gray-300">Magnification</th>
+                <th className="text-left px-4 py-3 font-medium text-white/90 dark:text-gray-300">Objective</th>
+                <th className="text-left px-4 py-3 font-medium text-white/90 dark:text-gray-300">Price</th>
+                <th className="text-left px-4 py-3 font-medium text-white/90 dark:text-gray-300">Pros</th>
+                <th className="text-left px-4 py-3 font-medium text-white/90 dark:text-gray-300">Cons</th>
               </tr>
             </thead>
             <tbody>
@@ -74,7 +74,7 @@ export default function EquipmentPage() {
                 <tr
                   key={`${b.brand}-${b.model}`}
                   className={`border-b border-gray-100 dark:border-gray-800 last:border-0 ${
-                    i % 2 === 1 ? "bg-gray-50/50 dark:bg-gray-900/30" : ""
+                    i % 2 === 1 ? "bg-bluebird/10" : "bg-white"
                   }`}
                 >
                   <td className="px-4 py-4 font-medium">{b.brand}</td>
