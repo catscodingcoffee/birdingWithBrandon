@@ -200,7 +200,7 @@ export default async function Home() {
         {/* Bird of the week */}
         <section className="w-full lg:w-3/5">
           <h2 className="text-xs font-semibold uppercase tracking-widest text-gray-800 dark:text-gray-500 mb-5">
-            Bird of the Day
+            PNW Bird of the Day
           </h2>
           <div className="flex gap-6 p-6 rounded-2xl border border-[#e6d2b9] bg-[#e6d2b9]/30">
             {wiki.imageUrl && (

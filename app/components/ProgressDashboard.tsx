@@ -104,6 +104,12 @@ export default function ProgressDashboard({ summary, speciesStats, hotspotStats 
               const accuracy = Math.round((s.gotIt / total) * 100);
               return (
                 <div key={s.name}>
+                  <div className="flex items-center gap-4 p-4 border rounded-2xl border-[#e6d2b9]">
+                    {/* left name / middle progress bar / right missed and % go here */}
+                    <p className="font-medium w-40 shrink-0 truncate">{s.name}</p>
+                    <p className="font-medium w-40 shrink-0 truncate">{s.name}</p>
+                    <p className="font-medium w-40 shrink-0 truncate">{accuracy}</p>
+                    </div>
                   {/* TODO: render a row/card for each species. You have access to:
                       s.name       — common name, e.g. "American Robin"
                       s.notYet     — times missed
