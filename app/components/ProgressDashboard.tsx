@@ -136,7 +136,7 @@ export default function ProgressDashboard({ summary, speciesStats, hotspotStats 
           ) : (
             <>
               {/* Header — rendered once, above the rows */}
-              <div className="flex items-center gap-4 px-4 text-xs font-semibold uppercase tracking-widest text-gray-500">
+              <div className="flex items-start gap-4 px-4 text-xs font-semibold uppercase tracking-widest text-gray-500">
                 <span className="w-40 shrink-0">Hotspot</span>
                 <span className="flex-1">Accuracy</span>
                 <span className="w-28 shrink-0 text-right">Missed</span>
@@ -151,7 +151,7 @@ export default function ProgressDashboard({ summary, speciesStats, hotspotStats 
                     key={h.name}
                     className="flex items-center gap-4 p-4 border rounded-2xl border-[#e6d2b9]"
                   >
-                    <p className="font-medium w-40 shrink-0 truncate">{h.name}</p>
+                    <p className="font-medium w-40 shrink-0">{h.name}</p>
                     <div className="flex-1 h-2 bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden">
                       <div
                         className="h-full bg-[#2c5fca] rounded-full"
