@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 import { useState } from "react";
 import ClearProgressButton from "./ClearProgressButton";
 
@@ -40,34 +39,29 @@ export default function ProgressDashboard({ summary, speciesStats, hotspotStats 
         <h1 className="text-3xl font-bold tracking-tight mb-2">My Progress</h1>
       </div>
 
-      {/* TODO: Summary stats row — render 4 stat cards using summary.totalSessions,
-          summary.uniqueHotspots, summary.uniqueSpecies, summary.overallAccuracy.
-          Look at how the home page renders its two-column section cards for a style reference. */}
       <section>
         <h2 className="text-xs font-semibold uppercase tracking-widest text-gray-800 dark:text-gray-500 mb-5">
           Overview
         </h2>
-        <div className="grid grid-cols sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className = "group flex flex-col gap-3 p-5 border rounded-2xl border-[#e6d2b9] transition-all h-full">
-            <p className = "text-3xl font-bold">{summary.totalSessions}</p>
-            <p className = "text-sm text-gray-500 ">Sessions</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="group flex flex-col gap-3 p-5 border rounded-2xl border-[#e6d2b9] transition-all h-full">
+            <p className="text-3xl font-bold">{summary.totalSessions}</p>
+            <p className="text-sm text-gray-500 ">Sessions</p>
           </div>
-          <div className = "group flex flex-col gap-3 p-5 border rounded-2xl border-[#e6d2b9] transition-all h-full">
-            <p className = "text-3xl font-bold">{summary.uniqueHotspots}</p>
-            <p className = "text-sm text-gray-500 ">Unique Hot Spots</p>
+          <div className="group flex flex-col gap-3 p-5 border rounded-2xl border-[#e6d2b9] transition-all h-full">
+            <p className="text-3xl font-bold">{summary.uniqueHotspots}</p>
+            <p className="text-sm text-gray-500 ">Unique Hot Spots</p>
           </div>
-          <div className = "group flex flex-col gap-3 p-5 border rounded-2xl border-[#e6d2b9] transition-all h-full">
-            <p className = "text-3xl font-bold">{summary.uniqueSpecies}</p> 
-            <p className = "text-sm text-gray-500 ">Unique Species</p>
+          <div className="group flex flex-col gap-3 p-5 border rounded-2xl border-[#e6d2b9] transition-all h-full">
+            <p className="text-3xl font-bold">{summary.uniqueSpecies}</p>
+            <p className="text-sm text-gray-500 ">Unique Species</p>
           </div>
-          <div className = "group flex flex-col gap-3 p-5 border rounded-2xl border-[#e6d2b9] transition-all h-full">
-            <p className = "text-3xl font-bold">{summary.overallAccuracy}%</p>
-            <p className = "text-sm text-gray-500 ">Overall Accuracy</p>
+          <div className="group flex flex-col gap-3 p-5 border rounded-2xl border-[#e6d2b9] transition-all h-full">
+            <p className="text-3xl font-bold">{summary.overallAccuracy}%</p>
+            <p className="text-sm text-gray-500 ">Overall Accuracy</p>
           </div>
-          
         </div>
       </section>
-
 
       {/* Tab switcher */}
       <div className="flex gap-2 border-b border-gray-200 dark:border-gray-800">
@@ -97,7 +91,7 @@ export default function ProgressDashboard({ summary, speciesStats, hotspotStats 
       {activeTab === "species" && (
         <div className="space-y-3">
           {speciesStats.length === 0 ? (
-            <p className="text-sm text-gray-500">No missed birds yet — keep studying!</p>
+            <p className="text-sm text-gray-500">No birds studied yet!</p>
           ) : (
             <>
               {/* Header — rendered once, above the rows */}
@@ -140,22 +134,37 @@ export default function ProgressDashboard({ summary, speciesStats, hotspotStats 
           {hotspotStats.length === 0 ? (
             <p className="text-sm text-gray-500">No hotspot sessions yet.</p>
           ) : (
-            hotspotStats.map((h) => {
-              const accuracy = h.total > 0 ? Math.round((h.gotIt / h.total) * 100) : 0;
-              return (
-                <div key={h.name}>
-                  {/* TODO: render a row/card for each hotspot. You have access to:
-                      h.name       — hotspot name, e.g. "Fernhill Wetlands"
-                      h.sessions   — number of times you've studied here
-                      h.total      — total bird attempts across all sessions here
-                      h.gotIt      — correct answers
-                      accuracy     — accuracy % (already computed above)
+            <>
+              {/* Header — rendered once, above the rows */}
+              <div className="flex items-center gap-4 px-4 text-xs font-semibold uppercase tracking-widest text-gray-500">
+                <span className="w-40 shrink-0">Hotspot</span>
+                <span className="flex-1">Accuracy</span>
+                <span className="w-28 shrink-0 text-right">Missed</span>
+              </div>
 
-                      Suggestion: hotspot name + "X sessions" on the left,
-                      accuracy % on the right. */}
-                </div>
-              );
-            })
+              {/* Rows */}
+              {hotspotStats.map((h) => {
+                const accuracy = h.total > 0 ? Math.round((h.gotIt / h.total) * 100) : 0;
+                const missed = h.total - h.gotIt;
+                return (
+                  <div
+                    key={h.name}
+                    className="flex items-center gap-4 p-4 border rounded-2xl border-[#e6d2b9]"
+                  >
+                    <p className="font-medium w-40 shrink-0 truncate">{h.name}</p>
+                    <div className="flex-1 h-2 bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-[#2c5fca] rounded-full"
+                        style={{ width: `${accuracy}%` }}
+                      />
+                    </div>
+                    <p className="text-sm text-gray-500 w-28 shrink-0 text-right">
+                      {missed} missed · {accuracy}%
+                    </p>
+                  </div>
+                );
+              })}
+            </>
           )}
         </div>
       )}
