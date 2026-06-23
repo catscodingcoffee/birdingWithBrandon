@@ -99,29 +99,37 @@ export default function ProgressDashboard({ summary, speciesStats, hotspotStats 
           {speciesStats.length === 0 ? (
             <p className="text-sm text-gray-500">No missed birds yet — keep studying!</p>
           ) : (
-            speciesStats.map((s) => {
-              const total = s.gotIt + s.notYet;
-              const accuracy = Math.round((s.gotIt / total) * 100);
-              return (
-                <div key={s.name}>
-                  <div className="flex items-center gap-4 p-4 border rounded-2xl border-[#e6d2b9]">
-                    {/* left name / middle progress bar / right missed and % go here */}
-                    <p className="font-medium w-40 shrink-0 truncate">{s.name}</p>
-                    <p className="font-medium w-40 shrink-0 truncate">{s.name}</p>
-                    <p className="font-medium w-40 shrink-0 truncate">{accuracy}</p>
-                    </div>
-                  {/* TODO: render a row/card for each species. You have access to:
-                      s.name       — common name, e.g. "American Robin"
-                      s.notYet     — times missed
-                      s.gotIt      — times correct
-                      total        — total attempts (already computed above)
-                      accuracy     — accuracy % (already computed above)
+            <>
+              {/* Header — rendered once, above the rows */}
+              <div className="flex items-center gap-4 px-4 text-xs font-semibold uppercase tracking-widest text-gray-500">
+                <span className="w-40 shrink-0">Species</span>
+                <span className="flex-1">Accuracy</span>
+                <span className="w-28 shrink-0 text-right">Missed</span>
+              </div>
 
-                      Suggestion: show the name on the left, a small progress bar in the
-                      middle, and "X missed / Y%" on the right. */}
-                </div>
-              );
-            })
+              {/* Rows */}
+              {speciesStats.map((s) => {
+                const total = s.gotIt + s.notYet;
+                const accuracy = Math.round((s.gotIt / total) * 100);
+                return (
+                  <div
+                    key={s.name}
+                    className="flex items-center gap-4 p-4 border rounded-2xl border-[#e6d2b9]"
+                  >
+                    <p className="font-medium w-40 shrink-0 truncate">{s.name}</p>
+                    <div className="flex-1 h-2 bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-[#2c5fca] rounded-full"
+                        style={{ width: `${accuracy}%` }}
+                      />
+                    </div>
+                    <p className="text-sm text-gray-500 w-28 shrink-0 text-right">
+                      {s.notYet} missed · {accuracy}%
+                    </p>
+                  </div>
+                );
+              })}
+            </>
           )}
         </div>
       )}
