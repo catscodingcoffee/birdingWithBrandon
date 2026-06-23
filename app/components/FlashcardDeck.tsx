@@ -186,7 +186,7 @@ export default function FlashcardDeck() {
     setStep("location");
     setLocationInput("");
     setHotspots([]);
-    setHotSpotQuery("");
+    setHotspotQuery("");
     setSelectedHotspot(null);
     setBirds([]);
     setCurrentIndex(0);
