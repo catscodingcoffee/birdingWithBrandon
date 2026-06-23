@@ -41,7 +41,7 @@ export default async function ProgressPage() {
   const uniqueSpecies = Object.keys(speciesMap).length;
 
   const speciesStats = Object.values(speciesMap)
-    .filter((s) => s.notYet > 0)
+    //.filter((s) => s.notYet > 0)
     .sort((a, b) => b.notYet - a.notYet);
 
   // --- Hotspot aggregation ---
