@@ -59,7 +59,7 @@ export default function FlashcardDeck() {
   const [error, setError] = useState<string | null>(null);
   const [results,setResults] = useState<Record<string, "got_it" | "not_yet">>({});
   const [deckSize, setDeckSize] = useState<5 | 10 | 15 | 25 | "all">(10);
-
+  const [hotspotQuery, setHotspotQuery] = useState("");
 
   async function fetchHotspots(lat: number, lng: number) {
     const res = await fetch(`/api/hotspots?lat=${lat}&lng=${lng}`);
@@ -186,6 +186,7 @@ export default function FlashcardDeck() {
     setStep("location");
     setLocationInput("");
     setHotspots([]);
+    setHotSpotQuery("");
     setSelectedHotspot(null);
     setBirds([]);
     setCurrentIndex(0);
@@ -195,6 +196,9 @@ export default function FlashcardDeck() {
 
   const bird = birds[currentIndex];
   const nextImageUrl = birds[currentIndex + 1]?.imageUrl;
+  const filteredHotSpots = hotspots.filter((h) =>
+    h.locName.toLowerCase().includes(hotspotQuery.toLowerCase())
+  );
 
   return (
     <div className="max-w-2xl mx-auto space-y-8">
@@ -257,7 +261,7 @@ export default function FlashcardDeck() {
             <div>
               <h2 className="text-xl font-semibold mb-1">Choose a Hotspot</h2>
               <p className="text-sm text-gray-500 dark:text-gray-400">
-                {hotspots.length} hotspots within 25 miles
+                {filteredHotSpots.length} of {hotspots.length} within 25 miles
               </p>
             </div>
             <div className="flex items-center gap-4">
@@ -289,9 +293,19 @@ export default function FlashcardDeck() {
           {error && (
             <p className="text-sm text-red-500 dark:text-red-400">{error}</p>
           )}
+          <input
+            type="text"
+            value={hotspotQuery}
+            onChange={(e) => setHotspotQuery(e.target.value)}
+            placeholder="Search hotspots…"
+            className="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-800 bg-white 
+          dark:bg-gray-900 text-sm focus:outline-none focus:border-sky-400"
+          />
+
+
 
           <div className="space-y-2 max-h-96 overflow-y-auto pr-1">
-            {hotspots.map((h) => (
+            {filteredHotSpots.map((h) => (
               <button
                 key={h.locId}
                 onClick={() => handleSelectHotspot(h)}
