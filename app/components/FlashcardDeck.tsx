@@ -359,9 +359,8 @@ export default function FlashcardDeck() {
           {/* Flip card */}
           <div style={{ perspective: "1200px" }} className="w-full">
             <div
-              className="relative w-full cursor-pointer select-none"
+              className="relative w-full h-[70svh] max-h-[460px] min-h-[340px] cursor-pointer select-none"
               style={{
-                height: "380px",
                 transformStyle: "preserve-3d",
                 transition: "transform 0.55s cubic-bezier(0.4,0.2,0.2,1)",
                 transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
